@@ -1,7 +1,7 @@
 /*	Author: Mayur Ryali
  *  Partner(s) Name:
  *	Lab Section: 21
- *	Assignment: Lab #11  Exercise #1
+ *	Assignment: Lab #11  Exercise #2
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -23,6 +23,10 @@ enum States {Start, runSM} state;
 
 unsigned char keypadVal;
 unsigned char tempB;
+unsigned char i;
+unsigned char scroll = 1;
+
+const unsigned char display[66]={' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','C','S','1','2','0','B',' ','i','s',' ','L','e','g','e','n','d','.','.','.','w','a','i','t',' ','f','o','r',' ','i','t',' ','D','A','R','Y','!',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '};
 
 int tick(int state) {
     keypadVal = GetKeypadKey();
@@ -31,74 +35,23 @@ int tick(int state) {
             state = runSM;
             break;
         case runSM:
-            switch(keypadVal) { //get keypad val then wait for next keypad val upon returning to the same state
-                case '\0':
-      			       tempB = 0x1F;
-                       break;
-      			case '1':
-      			       tempB = 0x01;
-                       break;
-      			case '2':
-      			       tempB = 0x02;
-      			       break;
-      			case '3':
-      			       tempB = 0x03;
-      		           break;
-      			case '4':
-      			       tempB = 0x04;
-      		           break;
-      			case '5':
-      			       tempB = 0x05;
-      		           break;
-      			case '6':
-      			       tempB = 0x06;
-      		           break;
-      			case '7':
-      			       tempB = 0x07;
-      		           break;
-      			case '8':
-      			       tempB = 0x08;
-      			       break;
-      			case '9':
-      			       tempB = 0x09;
-      			       break;
-      			case 'A':
-      			       tempB = 0x0A;
-      			       break;
-      			case 'B':
-      			       tempB = 0x0B;
-      			       break;
-      			case 'C':
-      			       tempB = 0x0C;
-      			       break;
-      			case 'D':
-      			       tempB = 0x0D;
-      			       break;
-      			case '*':
-      			       tempB = 0x0E;
-      			       break;
-      			case '0':
-      			       tempB = 0x00;
-      			       break;
-      			case '#':
-      			       tempB = 0x0F;
-      			       break;
-      			default:
-      			       tempB = 0x1B;
-      			       break;
+            for (i = 1; i <= 16; i++) {
+                LCD_Cursor(i); //cursor
+                LCD_WriteData(display[(i - 2) + scroll]); //"starts at index 1 first time, then index 2, etc simulating a scroll"
+                if ((i + 2) == 66) {
+                    i = 1;
+                }
             }
-            state = runSM; //keep getting input from kepyad
+            scroll++; //responible for "scrolling text"
+            state = runSM;
             break;
     }
     switch(state) {
         case Start:
-            PORTB = 0x1F; //starting value
             break;
         case runSM:
-            PORTB = tempB;
             break;
         default:
-            PORTB = tempB;
             break;
     }
     return state;
