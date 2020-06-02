@@ -8,7 +8,7 @@
  *	code, is my own original work.
  */
 
-// Demo: 
+// Demo:
 
 #include <avr/io.h>
 #ifdef _SIMULATE_
@@ -104,7 +104,7 @@ int tick(int state) {
 }
 
 int main(void) {
-    DDRC = 0x00; PORTC = 0xFF; //input
+    DDRC = 0xF0; PORTC = 0x0F; //input
     DDRB = 0xFF; PORTB = 0x00; //output
     DDRD = 0xFF; PORTD = 0x00; //output;
 
