@@ -19,6 +19,107 @@
 #include "timer.h"
 #endif
 
+enum States {Start, runSM, pressed} state;
+
+unsigned char keypadVal;
+unsigned char tempB;
+
+int tick(int state) {
+    keypadVal = GetKeypadKey();
+    switch(state) {
+        case Start:
+            state = runSM;
+            break;
+        case runSM:
+            switch(keypadVal) { //get keypad val then wait for next keypad val upon returning to the same state
+                case '\0':
+      			       tempB = 0x1F;
+                       break;
+      			case '1':
+      			       tempB = 0x01;
+                       break;
+      			case '2':
+      			       tempB = 0x02;
+      			       break;
+      			case '3':
+      			       tempB = 0x03;
+      		           break;
+      			case '4':
+      			       tempB = 0x04;
+      		           break;
+      			case '5':
+      			       tempB = 0x05;
+      		           break;
+      			case '6':
+      			       tempB = 0x06;
+      		           break;
+      			case '7':
+      			       tempB = 0x07;
+      		           break;
+      			case '8':
+      			       tempB = 0x08;
+      			       break;
+      			case '9':
+      			       tempB = 0x09;
+      			       break;
+      			case 'A':
+      			       tempB = 0x0A;
+      			       break;
+      			case 'B':
+      			       tempB = 0x0B;
+      			       break;
+      			case 'C':
+      			       tempB = 0x0C;
+      			       break;
+      			case 'D':
+      			       tempB = 0x0D;
+      			       break;
+      			case '*':
+      			       tempB = 0x0E;
+      			       break;
+      			case '0':
+      			       tempB = 0x00;
+      			       break;
+      			case '#':
+      			       tempB = 0x0F;
+      			       break;
+      			default:
+      			       tempB = 0x1B;
+      			       break;
+            }
+            if (keypadVal != NULL) {
+                state = runSM; //keep getting input from kepyad
+            }
+            else {
+                state = pressed;
+            }
+            break;
+        case pressed:
+            if (keypadVal != NULL) {
+                state = runSM; //keep getting input from kepyad
+            }
+            else {
+                state = pressed;
+            }
+            break;
+        default:
+            state = Start;
+            break;
+    }
+    switch(state) {
+        case Start:
+            break;
+        case runSM:
+            LCD_Cursor(1);
+            LCD_WriteData(tempB + '0');
+            break;
+        case pressed:
+            break;
+        default:
+            break;
+    }
+    return state;
+}
 
 int main(void) {
     DDRC = 0xF0; PORTC = 0x0F; //input

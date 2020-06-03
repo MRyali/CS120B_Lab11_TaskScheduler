@@ -89,6 +89,9 @@ int tick(int state) {
             }
             state = runSM; //keep getting input from kepyad
             break;
+        default:
+            state = Start;
+            break;
     }
     switch(state) {
         case Start:

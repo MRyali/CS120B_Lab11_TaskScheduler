@@ -45,6 +45,9 @@ int tick(int state) {
             scroll++; //responible for "scrolling text"
             state = runSM;
             break;
+        default:
+            state = Start;
+            break;
     }
     switch(state) {
         case Start:
