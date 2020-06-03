@@ -38,8 +38,8 @@ int tick(int state) {
             for (i = 1; i <= 16; i++) {
                 LCD_Cursor(i); //cursor
                 LCD_WriteData(display[(i - 2) + scroll]); //"starts at index 1 first time, then index 2, etc simulating a scroll"
-                if ((i + 2) == 66) {
-                    i = 1;
+                if ((scroll + i + 1) == 66) {
+                    scroll = 1;
                 }
             }
             scroll++; //responible for "scrolling text"
