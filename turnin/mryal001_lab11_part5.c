@@ -19,22 +19,44 @@
 #include "timer.h"
 #endif
 
+enum States1 {Start1, runSM} state1;
+enum States2 {Start2, player, cursorUp, cursorDown} state2;
+
 unsigned char i = 0;
+unsigned char currChar = 0;;
+unsigned char playerCursor = 0;
 
 const unsigned char display[30]={' ', ' ', ' ', '#', ' ', ' ', '#', ' ', '#', '#', ' ', ' ', '#', };
 
 int gameSM() {
-    case runSM:
-        for (i = 1; i <= 32; i++) {
-            LCD_Cursor(i); //cursor
-            LCD_WriteData(display[(i - 2) + scroll]); //"starts at index 1 first time, then index 2, etc simulating a scroll"
-            if ((scroll + i + 1) == 66) {
-                scroll = 1;
+    switch (state1) {
+        case Start1:
+            state1 = runSM;
+            break;
+        case runSM:
+            for (i = 1; i <= 32; i++) {
+                LCD_Cursor(i); //cursor
+                LCD_WriteData(display[(i - 2) + scroll]); //"starts at index 1 first time, then index 2, etc simulating a scroll"
+                currChar = display[(i - 2) + scroll];
+                if ((scroll + i + 1) == 66) {
+                    scroll = 1;
+                }
             }
-        }
-        scroll++; //responible for "scrolling text"
-        state = runSM;
-        break;ss
+            scroll++; //responible for "scrolling text"
+            state = runSM;
+            break;
+        default:
+            state1 = Start;
+            break;
+    }
+    switch(state1) {
+        case Start1:
+            break;
+        case runSM:
+            break;
+        default:
+            break;
+    }
 }
 
 int playerSM() {
@@ -54,6 +76,7 @@ int playerSM() {
             }
             break;
         case cursorUp:
+            playerCursor = 1;
             if (!buttonUp) {
                 state2 = player;
             }
@@ -62,6 +85,7 @@ int playerSM() {
             }
             break;
         case cursorDown:
+            playerCursor = 16;
             if (!buttonDown) {
                 state2 = player;
             }
