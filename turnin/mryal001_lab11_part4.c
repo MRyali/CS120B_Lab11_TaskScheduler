@@ -35,11 +35,10 @@ int tick(int state) {
             state = runSM;
             break;
         case runSM:
-            for (i = 1; i < 11; i++) {
                 switch(keypadVal) {
                     case '1':
-              		       display[cursor] = '1';
-                           cursor++;
+              		    display[cursor] = '1';
+                        cursor++;
                            break;
               		case '2':
                         display[cursor] = '2';
@@ -50,63 +49,66 @@ int tick(int state) {
                         cursor++;
               	           break;
               		case '4':
-                    display[cursor] = '4';
-                    cursor++;
+                        display[cursor] = '4';
+                        cursor++;
               	           break;
               		case '5':
-                    display[cursor] = '5';
-                    cursor++;
-                           cursor++;
+                        display[cursor] = '5';
+                        cursor++;
               	           break;
               		case '6':
-                    display[cursor] = '6';
-                    cursor++;
-                           cursor++;
+                        display[cursor] = '6';
+                        cursor++;
               	           break;
               		case '7':
-                    display[cursor] = '7';
-                    cursor++;
+                        display[cursor] = '7';
+                        cursor++;
               	           break;
               		case '8':
-                    display[cursor] = '8';
-                    cursor++;
+                        display[cursor] = '8';
+                        cursor++;
               		       break;
               		case '9':
-                    display[cursor] = '9';
-                    cursor++;
+                        display[cursor] = '9';
+                        cursor++;
               		       break;
               		case 'A':
-                    display[cursor] = 'A';
-                    cursor++;
+                        display[cursor] = 'A';
+                        cursor++;
               		       break;
               		case 'B':
-                    display[cursor] = 'B';
-                    cursor++;
+                        display[cursor] = 'B';
+                        cursor++;
               		       break;
               		case 'C':
-                    display[cursor] = 'C';
-                    cursor++;
+                        display[cursor] = 'C';
+                        cursor++;
               		       break;
               		case 'D':
-                    display[cursor] = 'D';
-                    cursor++;
+                        display[cursor] = 'D';
+                        cursor++;
               		       break;
               		case '*':
-                    display[cursor] = '*';
-                    cursor++;
+                        display[cursor] = '*';
+                        cursor++;
               		       break;
               		case '0':
-                    display[cursor] = '0';
-                    cursor++;
+                        display[cursor] = '0';
+                        cursor++;
               		       break;
               		case '#':
-                    display[cursor] = '#';
-                    cursor++;
-              		       break;
+                        display[cursor] = '#';
+                        cursor++;
+              		    break;
                     }
                 LCD_Cursor(i); //cursor
                 LCD_WriteData(display[i - 1]); //prints whole word
-            }
+                if (i < 11) {
+                    i++;
+                }
+                else {
+                    i = 1;
+                }
             state = runSM;
             break;
         /*case changeLetter:
