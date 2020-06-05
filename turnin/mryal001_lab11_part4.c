@@ -111,110 +111,6 @@ int tick(int state) {
                 }
             state = runSM;
             break;
-        /*case changeLetter:
-            switch(keypadVal) {
-                case '1':
-          		       tempB = 0x01;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-                       break;
-          		case '2':
-          		       tempB = 0x02;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          		       break;
-          		case '3':
-          		       tempB = 0x03;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          	           break;
-          		case '4':
-          		       tempB = 0x04;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          	           break;
-          		case '5':
-          		       tempB = 0x05;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          	           break;
-          		case '6':
-          		       tempB = 0x06;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          	           break;
-          		case '7':
-          		       tempB = 0x07;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          	           break;
-          		case '8':
-          		       tempB = 0x08;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          		       break;
-          		case '9':
-          		       tempB = 0x09;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          		       break;
-          		case 'A':
-          		       tempB = 0x0A;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          		       break;
-          		case 'B':
-          		       tempB = 0x0B;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          		       break;
-          		case 'C':
-          		       tempB = 0x0C;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          		       break;
-          		case 'D':
-          		       tempB = 0x0D;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          		       break;
-          		case '*':
-          		       tempB = 0x0E;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          		       break;
-          		case '0':
-          		       tempB = 0x00;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          		       break;
-          		case '#':
-          		       tempB = 0x0F;
-                       LCD_Cursor(cursor);
-                       LCD_WriteData(tempB + '0');
-                       cursor++;
-          		       break;
-                }
-                if (cursor == 11) {
-                    cursor = 1;
-                }
-                state = changeLetter;
-                break;*/
         default:
             state = Start;
             break;
@@ -225,8 +121,6 @@ int tick(int state) {
             break;
         case runSM:
             break;
-        /*case changeLetter:
-            break;*/
         default:
             break;
     }
@@ -246,11 +140,11 @@ int main(void) {
 
 	   // Task 1
 	task1.state = 0;//Task initial state.
-	task1.period = 2;//Task Period.
+	task1.period = 10;//Task Period.
 	task1.elapsedTime = 2;//Task current elapsed time.
     task1.TickFct = &tick;//Function pointer for the tick.
 
-    TimerSet(10);
+    TimerSet(30);
 	TimerOn();
     LCD_init();
 
