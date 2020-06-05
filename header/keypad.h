@@ -1,5 +1,5 @@
 
-// Permission to copy is granted provided that this header remains intact. 
+// Permission to copy is granted provided that this header remains intact.
 // This software is provided with no warranties.
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -22,8 +22,8 @@
 #include <bit.h>
 
 // Keypad Setup Values
-#define KEYPADPORT PORTC
-#define KEYPADPIN  PINC
+#define KEYPADPORT PORTA
+#define KEYPADPIN  PINA
 #define ROW1 0
 #define ROW2 1
 #define ROW3 2
@@ -70,7 +70,7 @@ unsigned char GetKeypadKey() {
 	if (GetBit(~KEYPADPIN,ROW2) ) { return 'B'; }
 	if (GetBit(~KEYPADPIN,ROW3) ) { return 'C'; }
 	if (GetBit(~KEYPADPIN,ROW4) ) { return 'D'; }
-	
+
 	return '\0';
 }
 
