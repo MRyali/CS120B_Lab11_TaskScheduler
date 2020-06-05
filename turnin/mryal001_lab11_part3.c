@@ -36,52 +36,68 @@ int tick(int state) {
       			       tempB = 0x1F;
                        break;
       			case '1':
-      			       tempB = 1;
+      			       tempB = 0x01;
+                       LCD_WriteData(tempB + '0');
                        break;
       			case '2':
-      			       tempB = 2;
+      			       tempB = 0x02;
+                       LCD_WriteData(tempB + '0');
       			       break;
       			case '3':
-      			       tempB = 3;
+      			       tempB = 0x03;
+                       LCD_WriteData(tempB + '0');
       		           break;
       			case '4':
-      			       tempB = 4;
+      			       tempB = 0x04;
+                       LCD_WriteData(tempB + '0');
       		           break;
       			case '5':
-      			       tempB = 5;
+      			       tempB = 0x05;
+                       LCD_WriteData(tempB + '0');
       		           break;
       			case '6':
-      			       tempB = 6;
+      			       tempB = 0x06;
+                       LCD_WriteData(tempB + '0');
       		           break;
       			case '7':
-      			       tempB = 7;
+      			       tempB = 0x07;
+                       LCD_WriteData(tempB + '0');
       		           break;
       			case '8':
-      			       tempB = 8;
+      			       tempB = 0x08;
+                       LCD_WriteData(tempB + '0');
       			       break;
       			case '9':
-      			       tempB = 9;
+      			       tempB = 0x09;
+                       LCD_WriteData(tempB + '0');
       			       break;
       			case 'A':
-      			       tempB = 'A';
+      			       tempB = 0x0A;
+                       LCD_WriteData(tempB + 0x37);
       			       break;
       			case 'B':
-      			       tempB = 'B';
+      			       tempB = 0x0B;
+                       LCD_WriteData(tempB + 0x37);
       			       break;
       			case 'C':
-      			       tempB = 'C';
+      			       tempB = 0x0C;
+                       LCD_WriteData(tempB + 0x37);
       			       break;
       			case 'D':
-      			       tempB = 'D';
+      			       tempB = 0x0D;
+                       LCD_WriteData(tempB + 0x37);
       			       break;
       			case '*':
-      			       tempB = '*';
+      			       tempB = 0x0E;
+                       LCD_WriteData(tempB + 0x1C);
       			       break;
       			case '0':
-      			       tempB = 0;
+      			       tempB = 0x00;
+                       LCD_WriteData(tempB + '0');
       			       break;
       			case '#':
-      			       tempB = '#';
+      			       tempB = 0x0F;
+                       LCD_WriteData(tempB + 0x14);
       			       break;
       			default:
       			       tempB = 0x1B;
@@ -111,7 +127,6 @@ int tick(int state) {
             break;
         case runSM:
             LCD_Cursor(1);
-            LCD_WriteData(tempB + '0');
             break;
         case pressed:
             break;
