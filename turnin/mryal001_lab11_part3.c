@@ -36,52 +36,52 @@ int tick(int state) {
       			       tempB = 0x1F;
                        break;
       			case '1':
-      			       tempB = 0x01;
+      			       tempB = 1;
                        break;
       			case '2':
-      			       tempB = 0x02;
+      			       tempB = 2;
       			       break;
       			case '3':
-      			       tempB = 0x03;
+      			       tempB = 3;
       		           break;
       			case '4':
-      			       tempB = 0x04;
+      			       tempB = 4;
       		           break;
       			case '5':
-      			       tempB = 0x05;
+      			       tempB = 5;
       		           break;
       			case '6':
-      			       tempB = 0x06;
+      			       tempB = 6;
       		           break;
       			case '7':
-      			       tempB = 0x07;
+      			       tempB = 7;
       		           break;
       			case '8':
-      			       tempB = 0x08;
+      			       tempB = 8;
       			       break;
       			case '9':
-      			       tempB = 0x09;
+      			       tempB = 9;
       			       break;
       			case 'A':
-      			       tempB = 0x0A;
+      			       tempB = 'A';
       			       break;
       			case 'B':
-      			       tempB = 0x0B;
+      			       tempB = 'B';
       			       break;
       			case 'C':
-      			       tempB = 0x0C;
+      			       tempB = 'C';
       			       break;
       			case 'D':
-      			       tempB = 0x0D;
+      			       tempB = 'D';
       			       break;
       			case '*':
-      			       tempB = 0x0E;
+      			       tempB = '*';
       			       break;
       			case '0':
-      			       tempB = 0x00;
+      			       tempB = 0;
       			       break;
       			case '#':
-      			       tempB = 0x0F;
+      			       tempB = '#';
       			       break;
       			default:
       			       tempB = 0x1B;
