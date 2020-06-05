@@ -26,7 +26,7 @@ unsigned char tempB;
 unsigned char i;
 unsigned char cursor = 0;
 
-const unsigned char display[10]={'S', 'U', 'M', 'M', 'E', 'R', 'T', 'I', 'M', 'E'};
+unsigned char display[10]={'S', 'U', 'M', 'M', 'E', 'R', 'T', 'I', 'M', 'E'};
 
 int tick(int state) {
     keypadVal = GetKeypadKey();
