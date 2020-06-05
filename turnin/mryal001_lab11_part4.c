@@ -19,12 +19,12 @@
 #include "timer.h"
 #endif
 
-enum States {Start, runSM, changeLetter} state;
+enum States {Start, runSM} state;
 
 unsigned char keypadVal;
 unsigned char tempB;
 unsigned char i;
-unsigned char cursor = 1;
+unsigned char cursor = 0;
 
 const unsigned char display[10]={'S', 'U', 'M', 'M', 'E', 'R', 'T', 'I', 'M', 'E'};
 
@@ -36,12 +36,80 @@ int tick(int state) {
             break;
         case runSM:
             for (i = 1; i < 11; i++) {
+                switch(keypadVal) {
+                    case '1':
+              		       display[cursor] = '1';
+                           cursor++;
+                           break;
+              		case '2':
+                        display[cursor] = '2';
+                        cursor++;
+              		    break;
+              		case '3':
+                        display[cursor] = '3';
+                        cursor++;
+              	           break;
+              		case '4':
+                    display[cursor] = '4';
+                    cursor++;
+              	           break;
+              		case '5':
+                    display[cursor] = '5';
+                    cursor++;
+                           cursor++;
+              	           break;
+              		case '6':
+                    display[cursor] = '6';
+                    cursor++;
+                           cursor++;
+              	           break;
+              		case '7':
+                    display[cursor] = '7';
+                    cursor++;
+              	           break;
+              		case '8':
+                    display[cursor] = '8';
+                    cursor++;
+              		       break;
+              		case '9':
+                    display[cursor] = '9';
+                    cursor++;
+              		       break;
+              		case 'A':
+                    display[cursor] = 'A';
+                    cursor++;
+              		       break;
+              		case 'B':
+                    display[cursor] = 'B';
+                    cursor++;
+              		       break;
+              		case 'C':
+                    display[cursor] = 'C';
+                    cursor++;
+              		       break;
+              		case 'D':
+                    display[cursor] = 'D';
+                    cursor++;
+              		       break;
+              		case '*':
+                    display[cursor] = '*';
+                    cursor++;
+              		       break;
+              		case '0':
+                    display[cursor] = '0';
+                    cursor++;
+              		       break;
+              		case '#':
+                    display[cursor] = '#';
+                    cursor++;
+              		       break;
+                    }
                 LCD_Cursor(i); //cursor
                 LCD_WriteData(display[i - 1]); //prints whole word
             }
-            state = changeLetter;
+            state = runSM;
             break;
-        case changeLetter:
+        /*case changeLetter:
             switch(keypadVal) {
                 case '1':
           		       tempB = 0x01;
@@ -144,7 +212,7 @@ int tick(int state) {
                     cursor = 1;
                 }
                 state = changeLetter;
-                break;
+                break;*/
         default:
             state = Start;
             break;
@@ -155,8 +223,8 @@ int tick(int state) {
             break;
         case runSM:
             break;
-        case changeLetter:
-            break;
+        /*case changeLetter:
+            break;*/
         default:
             break;
     }
