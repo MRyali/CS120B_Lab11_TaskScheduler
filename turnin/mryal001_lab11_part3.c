@@ -22,7 +22,9 @@
 enum States {Start, runSM, pressed} state;
 
 unsigned char keypadVal;
-unsigned char tempB;
+unsigned char tempB; //value for display
+unsigned char store; //value to keep display until new button pressed
+unsigned char key; //tells whicg value to add to tempB in LCD_WriteData
 
 int tick(int state) {
     keypadVal = GetKeypadKey();
@@ -34,95 +36,114 @@ int tick(int state) {
             switch(keypadVal) { //get keypad val then wait for next keypad val upon returning to the same state
                 case '\0':
       			       tempB = 0x1F;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
                        break;
       			case '1':
       			       tempB = 0x01;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
                        break;
       			case '2':
       			       tempB = 0x02;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
       			       break;
       			case '3':
       			       tempB = 0x03;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
       		           break;
       			case '4':
       			       tempB = 0x04;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
       		           break;
       			case '5':
       			       tempB = 0x05;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
       		           break;
       			case '6':
       			       tempB = 0x06;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
       		           break;
       			case '7':
       			       tempB = 0x07;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
       		           break;
       			case '8':
       			       tempB = 0x08;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
       			       break;
       			case '9':
       			       tempB = 0x09;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
       			       break;
       			case 'A':
       			       tempB = 0x0A;
+                       key = 1;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + 0x37);
       			       break;
       			case 'B':
       			       tempB = 0x0B;
+                       key = 1;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + 0x37);
       			       break;
       			case 'C':
       			       tempB = 0x0C;
+                       key = 1;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + 0x37);
       			       break;
       			case 'D':
       			       tempB = 0x0D;
+                       key = 1;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + 0x37);
       			       break;
       			case '*':
       			       tempB = 0x0E;
+                       key = 2;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + 0x1C);
       			       break;
       			case '0':
       			       tempB = 0x00;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
       			       break;
       			case '#':
       			       tempB = 0x0F;
+                       key = 2;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + 0x14);
       			       break;
       			default:
       			       tempB = 0x1B;
+                       key = 0;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + '0');
       			       break;
             }
+            store = tempB;
             if (keypadVal != NULL) {
                 state = runSM; //keep getting input from kepyad
             }
@@ -130,7 +151,21 @@ int tick(int state) {
                 state = pressed;
             }
             break;
-        case pressed:
+        case pressed: //keeps value displayed unti new push
+            switch (key) {
+                case 0:
+                    LCD_Cursor(1);
+                    LCD_WriteData(store + '0');
+                    break;
+                case 1:
+                    LCD_Cursor(1);
+                    LCD_WriteData(store + '0');
+                    break;
+                case 2:
+                    LCD_Cursor(1);
+                    LCD_WriteData(store + '0');
+                    break;
+            }
             if (keypadVal != NULL) {
                 state = runSM; //keep getting input from kepyad
             }
@@ -144,6 +179,7 @@ int tick(int state) {
     }
     switch(state) {
         case Start:
+            LCD_ClearScreen();
             break;
         case runSM:
             break;
