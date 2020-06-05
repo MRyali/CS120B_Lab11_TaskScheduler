@@ -108,7 +108,7 @@ int tick(int state) {
 }
 
 int main(void) {
-    DDRC = 0xF0; PORTC = 0x0F; //input
+    DDRA = 0xF0; PORTA = 0x0F; //input
     DDRB = 0xFF; PORTB = 0x00; //output
     DDRD = 0xFF; PORTD = 0x00; //output;
 

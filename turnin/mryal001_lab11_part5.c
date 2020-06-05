@@ -115,7 +115,8 @@ int playerSM() {
 }
 
 int main(void) {
-    DDRC = 0xF0; PORTC = 0x0F; //input
+    DDRA = 0xF0; PORTA = 0x0F; //input
+    DDRC = 0xFF; PORTC = 0x00; //output
     DDRB = 0xFF; PORTB = 0x00; //output
     DDRD = 0xFF; PORTD = 0x00; //output;
 
@@ -137,6 +138,7 @@ int main(void) {
 
     TimerSet(10);
 	TimerOn();
+    LCD_init();
 
     unsigned short i; // Scheduler for-loop iterator
    	while(1) {
