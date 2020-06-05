@@ -32,7 +32,7 @@ int tick(int state) {
     keypadVal = GetKeypadKey();
     switch(state) {
         case Start:
-            state = runSM
+            state = runSM;
             break;
         case runSM:
             for (i = 1; i < 11; i++) {
