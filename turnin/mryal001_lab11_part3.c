@@ -35,7 +35,7 @@ int tick(int state) {
                 case '\0':
       			       tempB = 0x1F;
                        LCD_Cursor(1);
-                       LCD_WriteData(tempB + '0';
+                       LCD_WriteData(tempB + '0');
                        break;
       			case '1':
       			       tempB = 0x01;
