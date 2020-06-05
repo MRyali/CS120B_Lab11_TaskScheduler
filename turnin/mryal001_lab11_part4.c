@@ -19,7 +19,7 @@
 #include "timer.h"
 #endif
 
-enum States {Start, display, changeLetter} state;
+enum States {Start, runSM, changeLetter} state;
 
 unsigned char keypadVal;
 unsigned char tempB;
