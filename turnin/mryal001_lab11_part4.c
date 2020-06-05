@@ -106,8 +106,11 @@ int tick(int state) {
     }
     switch(state) {
         case Start:
+            LCD_ClearScreen();
             break;
         case runSM:
+            break;
+        case changeLetter:
             break;
         default:
             break;
