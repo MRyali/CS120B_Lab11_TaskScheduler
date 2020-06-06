@@ -22,8 +22,8 @@
 enum States1 {Start1, press, release} state1;
 enum States2 {Start2, display, hold} state2;
 
-unsigned char keypadVal = 0;
-unsigned char letterChange = '1';
+unsigned char keypadVal = 0x00;
+unsigned char letterChange = 'C';
 unsigned char signal = 0;
 unsigned char cursor = 0;
 /*
@@ -133,7 +133,9 @@ int tick1(int state) {
     keypadVal = GetKeypadKey();
     switch(state1) {
         case Start1:
-            state1 = press;
+            if (keypadVal != '0') {
+                state1 = press;
+            }
             break;
         case press:
             if (keypadVal != '0') {
@@ -151,7 +153,9 @@ int tick1(int state) {
             else {
                 state1 = release;
             }*/
-            break;
+            else {
+                break;
+            }
         default:
             state = Start1;
             break;
@@ -163,12 +167,13 @@ int tick1(int state) {
             if (keypadVal != '\0'){ //if a button was pressed
                 letterChange = keypadVal;//store the letter
                 signal = 1; //tells that button was pressed
-                if (cursor != 16) { //update the position
-                    cursor++;
-                }
+                if (cursor == 16) { //update the position
+                    cursor = 0;
+                }/*
                 else {
                     cursor = 0; //index for where letter will change
-                }
+                }*/
+                cursor++;
             }
             break;
         case release:
@@ -191,10 +196,10 @@ int tick2(int state) {
 		case hold:
             if (signal == 1){
                 state2 = display;
-            }
+            }/*
             else {
                 state2 = hold;
-            }
+            }*/
             break;
 		default:
 			state2 = Start2;
