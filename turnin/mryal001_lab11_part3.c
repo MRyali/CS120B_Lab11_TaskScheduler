@@ -144,11 +144,11 @@ int tick(int state) {
       			       break;
             }
             store = tempB;
-            if (keypadVal != '\0') {
-                state = runSM; //keep getting input from kepyad
+            if (keypadVal == '\0') {
+                state = pressed; //keep getting input from kepyad
             }
             else {
-                state = pressed;
+                state = runSM;
             }
             break;
         case pressed: //keeps value displayed unti new push
@@ -166,11 +166,11 @@ int tick(int state) {
                     LCD_WriteData(store + '0');
                     break;
             }
-            if (keypadVal != '\0') {
-                state = runSM; //keep getting input from kepyad
+            if (keypadVal == '\0') {
+                state = pressed; //keep getting input from kepyad
             }
             else {
-                state = pressed;
+                state = runSM;
             }
             break;
         default:
