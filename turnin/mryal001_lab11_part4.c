@@ -20,7 +20,7 @@
 #endif
 
 enum States1 {Start1, press, release} state1;
-enum States2 {Start2, display, hold} state1;
+enum States2 {Start2, display, hold} state2;
 
 unsigned char keypadVal;
 unsigned char letterChange;
@@ -136,7 +136,7 @@ int tick1(int state) {
             state1 = press;
             break;
         case press:
-            if (kepyadVal != '0') {
+            if (keypadVal != '0') {
                 state1 = release;
             }
             else {
