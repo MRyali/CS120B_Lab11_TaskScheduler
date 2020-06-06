@@ -144,7 +144,7 @@ int tick(int state) {
       			       break;
             }
             store = tempB;
-            if (keypadVal != NULL) {
+            if (keypadVal != '\0') {
                 state = runSM; //keep getting input from kepyad
             }
             else {
@@ -166,7 +166,7 @@ int tick(int state) {
                     LCD_WriteData(store + '0');
                     break;
             }
-            if (keypadVal != NULL) {
+            if (keypadVal != '\0') {
                 state = runSM; //keep getting input from kepyad
             }
             else {
