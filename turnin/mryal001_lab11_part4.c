@@ -215,46 +215,65 @@ int tick2(int state) {
 	return state;
 }
 
-
 int main(void) {
     DDRA = 0xF0; PORTA = 0x0F; //input
     DDRC = 0xFF; PORTC = 0x00; //output
     DDRB = 0xFF; PORTB = 0x00; //output
     DDRD = 0xFF; PORTD = 0x00; //output;
 
-    // unsigned long int
-    static task task1;
-    task *tasks[] = { &task1, &task2};
+    unsigned long int tick1Val= 2;
+    unsigned long int tick2Val= 1;
+
+    unsigned long int tempGCD = findGCD(tick1Val, tick2Val);
+
+    //Greatest common divisor for all tasks or smallest time unit for tasks.
+    unsigned long int smGCD = tmpGCD;
+
+    //Recalculate GCD periods for scheduler
+    unsigned long int tick1_period = tick1Val/GCD;// 4
+    unsigned long int tick2_period = tick2Val/GCD;// 1
+
+    //Declare an array of tasks
+    static task task1, task2;
+    task *tasks[] = { &task1, &task2 };
     const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
 
-	// Task 1
-	task1.state = 0;//Task initial state.
-	task1.period = 10;//Task Period.
-	task1.elapsedTime = 2;//Task current elapsed time.
-    task1.TickFct = &tick1;//Function pointer for the tick.
-
     // Task 1
-    task2.state = 0;//Task initial state.
-    task2.period = 10;//Task Period.
-    task2.elapsedTime = 2;//Task current elapsed time.
-    task2.TickFct = &tick2;//Function pointer for the tick.
+    task1.state = 0;//Task initial state.
+    task1.period = tick1_period;//Task Period.  //1
+    task1.elapsedTime = tick1_period; // Task current elasped time. //1
+    task1.TickFct = &tick1; // Function pointer for the tick.
 
-    TimerSet(30);
-	TimerOn();
+    // Task 2
+    task2.state = 0;//Task initial state.
+    task2.period = tick2_period;//Task Period.   //2
+    task2.elapsedTime = tick2_period; // Task current elasped time. //2
+    task2.TickFct = &tick2; // Function pointer for the tick.
+
+    TimerSet(GCD);
+    TimerOn();
+
     LCD_init();
     LCD_ClearScreen();
 
     unsigned short i; // Scheduler for-loop iterator
-   	while(1) {
-   	    for ( i = 0; i < numTasks; i++ ) {
-   		       if ( tasks[i]->elapsedTime == tasks[i]->period ) {
-   			          tasks[i]->state = tasks[i]->TickFct(tasks[i]->state);
-   				      tasks[i]->elapsedTime = 0;
-   			}
-   			tasks[i]->elapsedTime += 1;
-   		}
-   		while(!TimerFlag);
-   		TimerFlag = 0;
-   	}
+
+    while(1) {
+    	// Scheduler code
+    	for ( i = 0; i < numTasks; i++ ) {
+    		// Task is ready to tick
+    		if ( tasks[i]->elapsedTime >= tasks[i]->period ) {
+    			// Setting next state for task
+    			tasks[i]->state = tasks[i]->TickFct(tasks[i]->state);
+    			// Reset the elapsed time for next tick.
+    			tasks[i]->elapsedTime = 0;
+    		}
+    		tasks[i]->elapsedTime += 1;
+    	}
+    	while(!TimerFlag);
+    	   TimerFlag = 0;
+    	}
+    }
+    // Error: Program should not exit!
     return 0;
 }
