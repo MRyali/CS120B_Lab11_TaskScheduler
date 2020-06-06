@@ -11,6 +11,8 @@
 // Demo:
 
 #include <avr/io.h>
+#include <time.h>
+#include <stdlib.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #include "keypad.h"
@@ -19,13 +21,22 @@
 #include "timer.h"
 #endif
 
-enum States1 {Start1, runSM} state1;
-enum States2 {Start2, player, cursorUp, cursorDown} state2;
+enum cursorSM {Start1, cursorUp, cursorDown} state1;
+enum objectSM {Start2, move} state2;
+enum gameSM {Start3, playGame, gameOver, wait, GameReset} state3;
 
-unsigned char i = 0;
-unsigned char currChar = 0;;
-unsigned char playerCursor = 0;
+unsigned char buttonUp;
+unsigned char buttonDown;
+unsigned char buttonReset;
+unsigned char i = 0; //temp variable allows to check if game is paused
+// unsigned char currChar = 0;
+unsigned char playerCursor = 0; //user position (top is 1, bottom is 17)
+unsigned char topPositionLCD;
+unsigned char bottomPositionLCD;
+unsigned char topPositionObject;
+unsigned char bottomPositionObject;
 
+/*
 const unsigned char display[30]={' ', ' ', ' ', '#', ' ', ' ', '#', ' ', '#', '#', ' ', ' ', '#', };
 
 int gameSM() {
@@ -113,44 +124,185 @@ int playerSM() {
             break;
     }
 }
+*/
+
+void playerCursorSM () { //allows player to move sursor up and down
+    switch (state1) {
+        case Start1:
+            state1 = cursorUp;
+            break;
+        case cursorUp:
+            if (buttonDown) {
+                state1 = cursorDown;
+            }
+            else {
+                state1 = cursorUp;
+            }
+            break;
+        case cursorDown:
+            if (buttonUp) {
+                state1 = cursorUp;
+            }
+            else {
+                state1 = cursorDown;
+            }
+            break;
+        default:
+            state1 = Start1;
+            break;
+    }
+    switch (state1) {
+        case Start1:
+            break;
+        case cursorUp:
+            playerCursor = 1; //store position for comparison
+            LCD_Cursor(playerCursor);
+            break;
+        case cursorDown:
+            playerCursor = 17; //store position for comparison
+            LCD_Cursor(playerCursor);
+            break;
+        default:
+            break;
+    }
+}
+
+void objectMoveSM() {
+    switch(state2) {
+        case Start2:
+            state2 = move;
+            break;
+        case move:
+            if (topPositionLCD == 1) {
+                topPositionLCD = 16;
+            }
+            else if (bottomPositionLCD == 17) {
+                bottomPositionLCD = 32;
+            }
+            else {
+                if (topPositionLCD != 1 && bottomPositionLCD != 17) {
+                    topPositionLCD -= r;
+                    bottomPositionLCD -= r + 2;
+                }
+            }
+            break;
+        default:
+            state2 = Start2;
+            break;
+    }
+    switch(state2) {
+        case Start2:
+            break;
+        case move:
+            LCD_ClearScreen();
+            LCD_DisplayString(topPositionLCD, (unsigned char*)"#");
+            topPositionObject = topPositionLCD; //store position of object
+            LCD_Cursor(bottomPositionLCD);
+            LCD_WriteData('#');
+            bottomPositionObject = bottomPositionLCD; //store the position of object
+            break;
+        default:
+            break;
+    }
+}
+playGame, gameOver, wait, GameReset
+void playGameSM() {
+    switch(state3) { // state transitions
+        case Start3:
+            state3 = wait;
+            break;
+        case playGame:
+            if (playerCursor == topPositionObject|| playerCursor== bottomPositionObject) {
+                state3 = gameOver;
+            }
+            else {
+                state3 = playGame;
+            }
+            break;
+        case gameOver:
+            state3 = wait;
+            break;
+        case wait:
+            if (buttonReset) {
+                state3 = gameReset;
+            }
+            else {
+                state3 = wait; //wait for game to start over
+            }
+            break;
+        case gameReset:
+            state3 = playGame; //reset the game
+            break;
+    }
+    switch(state3) { // state actions
+        case Start3:
+            break;
+        case playGame:
+            playerCursorSM();
+            break;
+        case gameOver:
+            LCD_DisplayString(1, (unsigned char*)"Get Good Lol");
+            i = 1;
+            break;
+        case wait:
+            break;
+        case gameReset:
+            LCD_ClearScreen();
+            i = 0;
+            break;
+    }
+}
 
 int main(void) {
-    DDRA = 0xF0; PORTA = 0x0F; //input
+    DDRA = 0x00; PORTA = 0xFF; //input
     DDRC = 0xFF; PORTC = 0x00; //output
     DDRB = 0xFF; PORTB = 0x00; //output
     DDRD = 0xFF; PORTD = 0x00; //output;
 
-    // unsigned long int
-    static task task1;
-    task *tasks[] = { &task1, &task2};
-    const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
+    srand(time(NULL));   // Initialization, should only be called once.
+    int rPosTop = (rand() % 16) + 1; //random starting pos for top
+    int rPosBot = (rand() % 32) + 1; //random starting pos for bot
+    int r = (rand() % 3) + 1;      // Returns a pseudo-random integer between 0 and RAND_MAX.
 
-	   // Task 1
-	task1.state = 0;//Task initial state.
-	task1.period = 2;//Task Period.
-	task1.elapsedTime = 2;//Task current elapsed time.
-    task1.TickFct = &gameSM;//Function pointer for the tick.
+    // initialize global variables
+    topPositionLCD = rPosTop;
+    bottomPositionLCD= rPosBot;
+    i = 1;
+    // initialize local variables
+    unsigned long cursor_time = 50;
+    unsigned long obstacle_time = 300;
+    const unsigned long timer_period = 50;
 
-    task1.state = 0;//Task initial state.
-	task1.period = 2;//Task Period.
-	task1.elapsedTime = 2;//Task current elapsed time.
-    task1.TickFct = &playerSM;//Function pointer for the tick.
+    state1 = Start1;
+    state2 = Start2;
+    state3 = Start3;
 
-    TimerSet(10);
-	TimerOn();
+    // initialize timer
+    TimerSet(timer_period);
+    TimerOn();
     LCD_init();
+    LCD_ClearScreen();
 
-    unsigned short i; // Scheduler for-loop iterator
-   	while(1) {
-   	    for ( i = 0; i < numTasks; i++ ) {
-   		       if ( tasks[i]->elapsedTime == tasks[i]->period ) {
-   			          tasks[i]->state = tasks[i]->TickFct(tasks[i]->state);
-   				      tasks[i]->elapsedTime = 0;
-   			}
-   			tasks[i]->elapsedTime += 1;
-   		}
-   		while(!TimerFlag);
-   		TimerFlag = 0;
-   	}
-    return 0;
+    while (1) {
+        buttonUp = ~PINA & 0x01; //up
+        buttonDown = ~PINA & 0x02; //down
+        buttonReset = ~PINA & 0x04; //reset
+        if (buttonReset) { // use PB2 to start/restart the game
+            i = 0;
+        }
+        if (i == 0) { //game is running
+            if (cursor_time >= 50) {
+                playGameSM();
+                cursor_time = 0;
+            }
+            if (obstacle_time >= 300) {
+                objectMoveSM();
+                obstacle_time = 0;
+            }
+        }
+        while (!TimerFlag) {}  // Wait for timer period
+        TimerFlag = 0;        // Lower flag
+        cursor_time += timer_period;
+        obstacle_time += timer_period;
+    }
 }
