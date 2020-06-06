@@ -23,7 +23,7 @@ enum States1 {Start1, press, release} state1;
 enum States2 {Start2, display, hold} state1;
 
 unsigned char keypadVal;
-unsigned char changeLetter;
+unsigned char letterChange;
 unsigned char signal;
 unsigned char cursor = 0;
 /*
@@ -230,8 +230,8 @@ int main(void) {
     unsigned long int smGCD = tmpGCD;
 
     //Recalculate GCD periods for scheduler
-    unsigned long int tick1_period = tick1Val/GCD;// 4
-    unsigned long int tick2_period = tick2Val/GCD;// 1
+    unsigned long int tick1_period = tick1Val/smGCD;// 4
+    unsigned long int tick2_period = tick2Val/smGCD;// 1
 
     //Declare an array of tasks
     static task task1, task2;
@@ -270,7 +270,7 @@ int main(void) {
     		}
     		tasks[i]->elapsedTime += 1;
     	}
-    	while(!TimerFlag);
+    	while(!TimerFlag) {
     	   TimerFlag = 0;
     	}
     }
