@@ -22,9 +22,9 @@
 enum States1 {Start1, press, release} state1;
 enum States2 {Start2, display, hold} state2;
 
-unsigned char keypadVal;
-unsigned char letterChange;
-unsigned char signal;
+unsigned char keypadVal = 0;
+unsigned char letterChange = '1';
+unsigned char signal = 0;
 unsigned char cursor = 0;
 /*
 unsigned char display[10]={'S', 'U', 'M', 'M', 'E', 'R', 'T', 'I', 'M', 'E'};
