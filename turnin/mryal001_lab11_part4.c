@@ -139,17 +139,18 @@ int tick1(int state) {
             if (keypadVal != '0') {
                 state1 = release;
             }
+            /*
             else {
                 state1 = press;
-            }
+            }*/
             break;
         case release:
             if (keypadVal == '0') {
                 state1 = press;
-            }
+            }/*
             else {
                 state1 = release;
-            }
+            }*/
             break;
         default:
             state = Start1;
@@ -166,7 +167,7 @@ int tick1(int state) {
                     cursor++;
                 }
                 else {
-                    cursor++; //index for where letter will change
+                    cursor = 0; //index for where letter will change
                 }
             }
             break;
@@ -182,7 +183,7 @@ int tick2(int state) {
 	switch (state2) {
         case Start2:
             LCD_DisplayString(1, "SummerTime2020!!");
-            state2 = display;
+            state2 = hold;
             break;
 		case display:
 			state2 = hold;
