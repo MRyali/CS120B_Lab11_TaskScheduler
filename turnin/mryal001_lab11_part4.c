@@ -227,7 +227,7 @@ int main(void) {
     unsigned long int tempGCD = findGCD(tick1Val, tick2Val);
 
     //Greatest common divisor for all tasks or smallest time unit for tasks.
-    unsigned long int smGCD = tmpGCD;
+    unsigned long int smGCD = tempGCD;
 
     //Recalculate GCD periods for scheduler
     unsigned long int tick1_period = tick1Val/smGCD;// 4
@@ -250,7 +250,7 @@ int main(void) {
     task2.elapsedTime = tick2_period; // Task current elasped time. //2
     task2.TickFct = &tick2; // Function pointer for the tick.
 
-    TimerSet(GCD);
+    TimerSet(smGCD);
     TimerOn();
 
     LCD_init();
