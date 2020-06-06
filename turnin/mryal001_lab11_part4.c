@@ -19,13 +19,14 @@
 #include "timer.h"
 #endif
 
-enum States {Start, runSM} state;
+enum States1 {Start1, press, release} state1;
+enum States2 {Start2, display, hold} state1;
 
 unsigned char keypadVal;
-unsigned char tempB;
-unsigned char i;
+unsigned char changeLetter;
+unsigned char signal;
 unsigned char cursor = 0;
-
+/*
 unsigned char display[10]={'S', 'U', 'M', 'M', 'E', 'R', 'T', 'I', 'M', 'E'};
 
 int tick(int state) {
@@ -126,6 +127,94 @@ int tick(int state) {
     }
     return state;
 }
+*/
+
+int tick1(int state) {
+    keypadVal = GetKeypadKey();
+    switch(state1) {
+        case Start:
+            state1 = press;
+            break;
+        case press:
+            if (kepyadVal != '0') {
+                state1 = release;
+            }
+            else {
+                state1 = press;
+            }
+            break;
+        case release:
+            if (keypadVal == '0') {
+                state1 = press;
+            }
+            else {
+                state1 = release;
+            }
+            break;
+        default:
+            state = Start;
+            break;
+    }
+    switch(state) {
+        case Start:
+            break;
+        case press:
+            if (kepyadVal != '\0'){ //if a button was pressed
+                letterChange = keypadVal;//store the letter
+                signal = 1; //tells that button was pressed
+                if (cursor != 16) { //update the position
+                    cursor++;
+                }
+                else {
+                    cursor++; //index for where letter will change
+                }
+            }
+            break;
+        case release:
+            break;
+        default:
+            break;
+    }
+    return state;
+}
+
+int tick2(int state) {
+	switch (state2) {
+        case Start2:
+            LCD_DisplayString(1, "SummerTime2020!!");
+            state2 = display;
+            break;
+		case display:
+			state2 = hold;
+			break;
+		case hold:
+            if (signal == 1){
+                state2 = display;
+            }
+            else {
+                state2 = hold;
+            }
+            break;
+		default:
+			state2 = Start2;
+			break;
+	}
+	switch(state2) {
+		case Start2:
+			break;
+		case display:
+			LCD_Cursor(cursor); //changes which letter is being changed
+			LCD_WriteData(letterChange); //the letter we are inserting
+			signal = 0;
+			break;
+		case hold:
+			break;
+		default:
+			break;
+	}
+	return state;
+}
+
 
 int main(void) {
     DDRA = 0xF0; PORTA = 0x0F; //input
@@ -135,18 +224,25 @@ int main(void) {
 
     // unsigned long int
     static task task1;
-    task *tasks[] = { &task1};
+    task *tasks[] = { &task1, &task2};
     const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
 
-	   // Task 1
+	// Task 1
 	task1.state = 0;//Task initial state.
 	task1.period = 10;//Task Period.
 	task1.elapsedTime = 2;//Task current elapsed time.
-    task1.TickFct = &tick;//Function pointer for the tick.
+    task1.TickFct = &tick1;//Function pointer for the tick.
+
+    // Task 1
+    task2.state = 0;//Task initial state.
+    task2.period = 10;//Task Period.
+    task2.elapsedTime = 2;//Task current elapsed time.
+    task2.TickFct = &tick2;//Function pointer for the tick.
 
     TimerSet(30);
 	TimerOn();
     LCD_init();
+    LCD_ClearScreen();
 
     unsigned short i; // Scheduler for-loop iterator
    	while(1) {
