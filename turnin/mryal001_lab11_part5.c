@@ -205,7 +205,7 @@ void objectMoveSM() {
             break;
     }
 }
-playGame, gameOver, wait, GameReset
+
 void playGameSM() {
     switch(state3) { // state transitions
         case Start3:
