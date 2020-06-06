@@ -132,7 +132,7 @@ int tick(int state) {
 int tick1(int state) {
     keypadVal = GetKeypadKey();
     switch(state1) {
-        case Start:
+        case Start1:
             state1 = press;
             break;
         case press:
@@ -152,11 +152,11 @@ int tick1(int state) {
             }
             break;
         default:
-            state = Start;
+            state = Start1;
             break;
     }
-    switch(state) {
-        case Start:
+    switch(state1) {
+        case Start1:
             break;
         case press:
             if (keypadVal != '\0'){ //if a button was pressed
@@ -175,7 +175,7 @@ int tick1(int state) {
         default:
             break;
     }
-    return state;
+    return state1;
 }
 
 int tick2(int state) {
@@ -212,7 +212,7 @@ int tick2(int state) {
 		default:
 			break;
 	}
-	return state;
+	return state2;
 }
 
 int main(void) {
