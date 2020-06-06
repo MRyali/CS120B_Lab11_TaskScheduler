@@ -159,7 +159,7 @@ int tick1(int state) {
         case Start:
             break;
         case press:
-            if (kepyadVal != '\0'){ //if a button was pressed
+            if (keypadVal != '\0'){ //if a button was pressed
                 letterChange = keypadVal;//store the letter
                 signal = 1; //tells that button was pressed
                 if (cursor != 16) { //update the position
