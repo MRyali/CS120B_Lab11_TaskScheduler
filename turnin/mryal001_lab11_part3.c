@@ -144,12 +144,12 @@ int tick(int state) {
       			       break;
             }
             store = tempB;
-            if (keypadVal == '\0') {
+            /*if (keypadVal == '\0') {
                 state = pressed; //keep getting input from kepyad
             }
             else {
                 state = runSM;
-            }
+            }*/
             break;
         case pressed: //keeps value displayed unti new push
             switch (key) {
