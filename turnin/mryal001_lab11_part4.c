@@ -11,12 +11,14 @@
 // Demo:
 
 #include <avr/io.h>
+#include <stdio.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #include "keypad.h"
 #include "scheduler.h"
 #include "io.h"
 #include "timer.h"
+#include "bit.h"
 #endif
 
 enum States1 {Start1, press, release} state1;
