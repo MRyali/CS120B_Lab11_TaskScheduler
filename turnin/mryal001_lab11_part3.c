@@ -144,6 +144,7 @@ int tick(int state) {
       			       break;
             }
             store = tempB;
+            state = pressed;
             /*if (keypadVal == '\0') {
                 state = pressed; //keep getting input from kepyad
             }
