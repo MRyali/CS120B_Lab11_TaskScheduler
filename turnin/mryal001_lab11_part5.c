@@ -23,11 +23,12 @@
 
 enum cursorSM {Start1, cursorUp, cursorDown} state1;
 enum objectSM {Start2, move} state2;
-enum gameSM {Start3, playGame, gameOver, wait, GameReset} state3;
+enum gameSM {Start3, playGame, gameOver, wait, gameReset} state3;
 
 unsigned char buttonUp;
 unsigned char buttonDown;
 unsigned char buttonReset;
+int r = 0; //random
 unsigned char i = 0; //temp variable allows to check if game is paused
 // unsigned char currChar = 0;
 unsigned char playerCursor = 0; //user position (top is 1, bottom is 17)
@@ -262,7 +263,7 @@ int main(void) {
     srand(time(NULL));   // Initialization, should only be called once.
     int rPosTop = (rand() % 16) + 1; //random starting pos for top
     int rPosBot = (rand() % 32) + 1; //random starting pos for bot
-    int r = (rand() % 3) + 1;      // Returns a pseudo-random integer between 0 and RAND_MAX.
+    r = (rand() % 3) + 1;      // Returns a pseudo-random integer between 0 and RAND_MAX.
 
     // initialize global variables
     topPositionLCD = rPosTop;
