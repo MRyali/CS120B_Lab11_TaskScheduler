@@ -27,9 +27,7 @@ enum DisplaySM{Start2, display} state2;
 unsigned char keypadVal = 0x00;
 unsigned char index = 0;
 
-//unsigned char display[16]={'S', 'U', 'M', 'M', 'E', 'R', 'T', 'I', 'M', 'E', '2', '0', '2', '0', '!', '!'};
-
-unsigned char word[5] = {'H', 'E', 'L', 'L', 'O'};
+unsigned char word[14]={'C', 'O', 'N', 'G', 'R', 'A', 'T', 'U', 'L', 'A', 'T', 'I', 'O', 'N'};
 
 int LetterChangeSM (int state) {
     keypadVal = GetKeypadKey();
@@ -118,60 +116,12 @@ int LetterChangeSM (int state) {
         case press:
             break;
         case release:
-            if (index < 4) {
+            if (index < 14) {
                 index++;
             }
             else {
                 index = 0;
             }
-            /*if (keypadVal == '1') {
-                word[index] = '1';
-            }
-            if (keypadVal == '1') {
-                word[index] = '1';
-            }
-            if (keypadVal == '2') {
-                word[index] = '2';
-            }
-            if (keypadVal == '3') {
-                word[index] = '3';
-            }
-            if (keypadVal == '4') {
-                word[index] = '4';
-            }
-            if (keypadVal == '5') {
-                word[index] = '5';
-            }
-            if (keypadVal == '6') {
-                word[index] = '6';
-            }
-            if (keypadVal == '7') {
-                word[index] = '7';
-            }
-            if (keypadVal == '8') {
-                word[index] = '8';
-            }
-            if (keypadVal == '9') {
-                word[index] = '9';
-            }
-            if (keypadVal == 'A') {
-                word[index] = 'A';
-            }
-            if (keypadVal == 'B') {
-                word[index] = 'B';
-            }
-            if (keypadVal == 'C') {
-                word[index] = 'C';
-            }
-            if (keypadVal == 'D') {
-                word[index] = 'D';
-            }
-            if (keypadVal == '#') {
-                word[index] = '#';
-            }
-            if (keypadVal == '*') {
-                word[index] = '*';
-            }*/
             break;
         default:
             break;
@@ -195,6 +145,24 @@ int DisplaySM(int state) {
             LCD_WriteData(word[3]);
             LCD_Cursor(5);
             LCD_WriteData(word[4]);
+            LCD_Cursor(6);
+            LCD_WriteData(word[5]);
+            LCD_Cursor(7);
+            LCD_WriteData(word[6]);
+            LCD_Cursor(8);
+            LCD_WriteData(word[7]);
+            LCD_Cursor(9);
+            LCD_WriteData(word[8]);
+            LCD_Cursor(10);
+            LCD_WriteData(word[9]);
+            LCD_Cursor(11);
+            LCD_WriteData(word[10]);
+            LCD_Cursor(12);
+            LCD_WriteData(word[11]);
+            LCD_Cursor(13);
+            LCD_WriteData(word[12]);
+            LCD_Cursor(14);
+            LCD_WriteData(word[13]);
             state2 = display;
             break;
         default:
