@@ -290,15 +290,15 @@ int main(void) {
 	task1.elapsedTime = 300;//Task current elapsed time.
     task1.TickFct = &playerCursorSM;//Function pointer for the tick.
 */
-    task1.state = 0;//Task initial state.
-	task1.period = 50;//Task Period.
-	task1.elapsedTime = 50;//Task current elapsed time.
-    task1.TickFct = &objectMoveSM;//Function pointer for the tick.
+    task2.state = 0;//Task initial state.
+	task2.period = 50;//Task Period.
+	task2.elapsedTime = 50;//Task current elapsed time.
+    task2.TickFct = &objectMoveSM;//Function pointer for the tick.
 
-    task1.state = 0;//Task initial state.
-	task1.period = 300;//Task Period.
-	task1.elapsedTime = 300;//Task current elapsed time.
-    task1.TickFct = &playGameSM;//Function pointer for the tick.
+    task3.state = 0;//Task initial state.
+	task3.period = 300;//Task Period.
+	task3.elapsedTime = 300;//Task current elapsed time.
+    task3.TickFct = &playGameSM;//Function pointer for the tick.
 
     // initialize timer
     TimerSet(50);
