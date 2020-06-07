@@ -25,9 +25,6 @@ enum LetterChangeSM {Start1, wait, press, release} state1;
 enum DisplaySM{Start2, display} state2;
 
 unsigned char keypadVal = 0x00;
-unsigned char letterChange = 'C';
-unsigned char signal = 0;
-unsigned char cursor = 0;
 unsigned char index = 0;
 
 //unsigned char display[16]={'S', 'U', 'M', 'M', 'E', 'R', 'T', 'I', 'M', 'E', '2', '0', '2', '0', '!', '!'};
@@ -57,8 +54,55 @@ int LetterChangeSM (int state) {
             }
             break;
         case release:
-            if (index < 3) {
-                index++;
+            switch(keypad) {
+      			case '1':
+      			       word[index] = '1';
+                       break;
+      			case '2':
+      			       word[index] = '2';
+      			       break;
+      			case '3':
+      			       word[index] = '3';
+      		           break;
+      			case '4':
+      			       word[index] = '4';
+      		           break;
+      			case '5':
+      			       word[index] = '5';
+      		           break;
+      			case '6':
+      			       word[index] = '6';
+      		           break;
+      			case '7':
+      			       word[index] = '7';
+      		           break;
+      			case '8':
+      			       word[index] = '8';
+      			       break;
+      			case '9':
+      			       word[index] = '9';
+      			       break;
+      			case 'A':
+      			       word[index] = 'A';
+      			       break;
+      			case 'B':
+      			       word[index] = 'B';
+      			       break;
+      			case 'C':
+      			       word[index] = 'C';
+      			       break;
+      			case 'D':
+      			       word[index] = 'D';
+      			       break;
+      			case '*':
+      			       word[index] = '*';
+      			       break;
+      			case '0':
+      			       word[index] = '0';
+      			       break;
+      			case '#':
+      			       word[index] = '#';
+      			       break;
             }
             state1 = wait;
             break;
@@ -74,8 +118,14 @@ int LetterChangeSM (int state) {
         case press:
             break;
         case release:
-            if (keypadVal == '0') {
-                word[index] = '0';
+            if (index < 4) {
+                index++;
+            }
+            else {
+                index = 0;
+            }
+            /*if (keypadVal == '1') {
+                word[index] = '1';
             }
             if (keypadVal == '1') {
                 word[index] = '1';
@@ -121,7 +171,7 @@ int LetterChangeSM (int state) {
             }
             if (keypadVal == '*') {
                 word[index] = '*';
-            }
+            }*/
             break;
         default:
             break;
