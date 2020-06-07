@@ -175,7 +175,7 @@ void objectMoveSM() {
             state2 = move;
             break;
         case move:
-            if ((topPositionLCD != 1)&& (bottomPositionLCD != 17) {
+            if ((topPositionLCD != 1)&& (bottomPositionLCD != 17)) {
                 topPositionLCD -= 1; //decrementing by one gives smooth transition
                 bottomPositionLCD -= 1;
             }
