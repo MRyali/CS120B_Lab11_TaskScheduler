@@ -29,7 +29,7 @@ unsigned char letterChange = 'C';
 unsigned char signal = 0;
 unsigned char cursor = 0;
 
-unsigned char display[16]={'S', 'U', 'M', 'M', 'E', 'R', 'T', 'I', 'M', 'E', '2', '0', '2', '0', '!', '!'};
+//unsigned char display[16]={'S', 'U', 'M', 'M', 'E', 'R', 'T', 'I', 'M', 'E', '2', '0', '2', '0', '!', '!'};
 
 unsigned char word[5] = {'H', 'E', 'L', 'L', 'O'};
 int LetterChangeSM(int state) {
