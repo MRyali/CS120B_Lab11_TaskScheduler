@@ -120,7 +120,7 @@ int tick(int state) {
       			       break;
       			case '*':
       			       tempB = 0x0E;
-                       key = 2;
+                       key = 3;
                        LCD_Cursor(1);
                        LCD_WriteData(tempB + 0x1C);
       			       break;
@@ -160,11 +160,15 @@ int tick(int state) {
                     break;
                 case 1:
                     LCD_Cursor(1);
-                    LCD_WriteData(store + '0');
+                    LCD_WriteData(store + 0x37);
                     break;
                 case 2:
                     LCD_Cursor(1);
-                    LCD_WriteData(store + '0');
+                    LCD_WriteData(store + 0x14);
+                    break;
+                case 3:
+                    LCD_Cursor(1);
+                    LCD_WriteData(store + 0x1C);
                     break;
             }
             if (keypadVal == '\0') {
