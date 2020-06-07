@@ -21,164 +21,109 @@
 #include "bit.h"
 #endif
 
-enum States1 {Start1, press, release} state1;
-enum States2 {Start2, display, hold} state2;
+enum LetterChangeSM {Start1, wait, press, release} state1;
+enum DisplaySM{Start2, display} state2;
 
 unsigned char keypadVal = 0x00;
-unsigned char letterChange = 'C';
-unsigned char signal = 0;
-unsigned char cursor = 0;
-/*
-unsigned char display[10]={'S', 'U', 'M', 'M', 'E', 'R', 'T', 'I', 'M', 'E'};
+unsigned char x = 0x00;
+unsigned char index = 0;
 
-int tick(int state) {
-    keypadVal = GetKeypadKey();
-    switch(state) {
-        case Start:
-            state = runSM;
-            break;
-        case runSM:
-                switch(keypadVal) {
-                    case '1':
-              		    display[cursor] = '1';
-                        cursor++;
-                           break;
-              		case '2':
-                        display[cursor] = '2';
-                        cursor++;
-              		    break;
-              		case '3':
-                        display[cursor] = '3';
-                        cursor++;
-              	           break;
-              		case '4':
-                        display[cursor] = '4';
-                        cursor++;
-              	           break;
-              		case '5':
-                        display[cursor] = '5';
-                        cursor++;
-              	           break;
-              		case '6':
-                        display[cursor] = '6';
-                        cursor++;
-              	           break;
-              		case '7':
-                        display[cursor] = '7';
-                        cursor++;
-              	           break;
-              		case '8':
-                        display[cursor] = '8';
-                        cursor++;
-              		       break;
-              		case '9':
-                        display[cursor] = '9';
-                        cursor++;
-              		       break;
-              		case 'A':
-                        display[cursor] = 'A';
-                        cursor++;
-              		       break;
-              		case 'B':
-                        display[cursor] = 'B';
-                        cursor++;
-              		       break;
-              		case 'C':
-                        display[cursor] = 'C';
-                        cursor++;
-              		       break;
-              		case 'D':
-                        display[cursor] = 'D';
-                        cursor++;
-              		       break;
-              		case '*':
-                        display[cursor] = '*';
-                        cursor++;
-              		       break;
-              		case '0':
-                        display[cursor] = '0';
-                        cursor++;
-              		       break;
-              		case '#':
-                        display[cursor] = '#';
-                        cursor++;
-              		    break;
-                    }
-                LCD_Cursor(i); //cursor
-                LCD_WriteData(display[i - 1]); //prints whole word
-                if (i < 11) {
-                    i++;
-                }
-                else {
-                    i = 1;
-                }
-            state = runSM;
-            break;
-        default:
-            state = Start;
-            break;
-    }
-    switch(state) {
-        case Start:
-            LCD_ClearScreen();
-            break;
-        case runSM:
-            break;
-        default:
-            break;
-    }
-    return state;
-}
-*/
+unsigned char word[16]={'C', 'O', 'N', 'G', 'R', 'A', 'T', 'U', 'L', 'A', 'T', 'I', 'O', 'N', 'S', '!'};
 
-int tick1(int state) {
+int LetterChangeSM (int state) {
     keypadVal = GetKeypadKey();
     switch(state1) {
         case Start1:
-            if (keypadVal != '0') {
+            state1 = wait;
+            break;
+        case wait:
+            if (keypadVal != '\0') {
+                x = keypadVal;
                 state1 = press;
+            }
+            else {
+                state1 = wait;
             }
             break;
         case press:
-            if (keypadVal != '0') {
+            if (keypadVal == '\0') {
                 state1 = release;
             }
-            /*
             else {
                 state1 = press;
-            }*/
+            }
             break;
         case release:
-            if (keypadVal == '0') {
-                state1 = press;
-            }/*
-            else {
-                state1 = release;
-            }*/
-            else {
-                break;
+            switch(x) {
+      			case '1':
+      			       word[index - 1] = '1';
+                       break;
+      			case '2':
+      			       word[index - 1] = '2';
+      			       break;
+      			case '3':
+      			       word[index - 1] = '3';
+      		           break;
+      			case '4':
+      			       word[index - 1] = '4';
+      		           break;
+      			case '5':
+      			       word[index - 1] = '5';
+      		           break;
+      			case '6':
+      			       word[index - 1] = '6';
+      		           break;
+      			case '7':
+      			       word[index - 1] = '7';
+      		           break;
+      			case '8':
+      			       word[index - 1] = '8';
+      			       break;
+      			case '9':
+      			       word[index - 1] = '9';
+      			       break;
+      			case 'A':
+      			       word[index - 1] = 'A';
+      			       break;
+      			case 'B':
+      			       word[index - 1] = 'B';
+      			       break;
+      			case 'C':
+      			       word[index - 1] = 'C';
+      			       break;
+      			case 'D':
+      			       word[index - 1] = 'D';
+      			       break;
+      			case '*':
+      			       word[index - 1] = '*';
+      			       break;
+      			case '0':
+      			       word[index - 1] = '0';
+      			       break;
+      			case '#':
+      			       word[index - 1] = '#';
+      			       break;
             }
+            state1 = wait;
+            break;
         default:
-            state = Start1;
+            state1 = Start1;
             break;
     }
     switch(state1) {
         case Start1:
             break;
+        case wait:
+            break;
         case press:
-            if (keypadVal != '\0'){ //if a button was pressed
-                letterChange = keypadVal;//store the letter
-                signal = 1; //tells that button was pressed
-                if (cursor == 16) { //update the position
-                    cursor = 0;
-                }/*
-                else {
-                    cursor = 0; //index for where letter will change
-                }*/
-                cursor++;
-            }
             break;
         case release:
+            if (index < 16) {
+                index++;
+            }
+            else {
+                index = 0;
+            }
             break;
         default:
             break;
@@ -186,42 +131,57 @@ int tick1(int state) {
     return state1;
 }
 
-int tick2(int state) {
-	switch (state2) {
+int DisplaySM(int state) {
+    switch(state2) {
         case Start2:
-            LCD_DisplayString(1, "SummerTime2020!!");
-            state2 = hold;
+            state2 = display;
             break;
-		case display:
-			state2 = hold;
-			break;
-		case hold:
-            if (signal == 1){
-                state2 = display;
-            }/*
-            else {
-                state2 = hold;
-            }*/
+        case display:
+            LCD_Cursor(1);
+            LCD_WriteData(word[0]);
+            LCD_Cursor(2);
+            LCD_WriteData(word[1]);
+            LCD_Cursor(3);
+            LCD_WriteData(word[2]);
+            LCD_Cursor(4);
+            LCD_WriteData(word[3]);
+            LCD_Cursor(5);
+            LCD_WriteData(word[4]);
+            LCD_Cursor(6);
+            LCD_WriteData(word[5]);
+            LCD_Cursor(7);
+            LCD_WriteData(word[6]);
+            LCD_Cursor(8);
+            LCD_WriteData(word[7]);
+            LCD_Cursor(9);
+            LCD_WriteData(word[8]);
+            LCD_Cursor(10);
+            LCD_WriteData(word[9]);
+            LCD_Cursor(11);
+            LCD_WriteData(word[10]);
+            LCD_Cursor(12);
+            LCD_WriteData(word[11]);
+            LCD_Cursor(13);
+            LCD_WriteData(word[12]);
+            LCD_Cursor(14);
+            LCD_WriteData(word[13]);
+            state2 = display;
             break;
-		default:
-			state2 = Start2;
-			break;
-	}
-	switch(state2) {
-		case Start2:
-			break;
-		case display:
-			LCD_Cursor(cursor); //changes which letter is being changed
-			LCD_WriteData(letterChange); //the letter we are inserting
-			signal = 0;
-			break;
-		case hold:
-			break;
-		default:
-			break;
-	}
-	return state2;
+        default:
+            state2 = Start2;
+            break;
+    }
+    switch(state2) {
+        case Start2:
+            break;
+        case display:
+            break;
+        default:
+            break;
+    }
+    return state2;
 }
+
 
 int main(void) {
     DDRA = 0xF0; PORTA = 0x0F; //input
@@ -243,22 +203,22 @@ int main(void) {
 
     //Declare an array of tasks
     static task task1, task2;
-    task *tasks[] = { &task1, &task2 };
+    task *tasks[] = { &task1, &task2};
     const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
 
     // Task 1
     task1.state = 0;//Task initial state.
     task1.period = tick1_period;//Task Period.  //1
     task1.elapsedTime = tick1_period; // Task current elasped time. //1
-    task1.TickFct = &tick1; // Function pointer for the tick.
+    task1.TickFct = &LetterChangeSM; // Function pointer for the tick.
 
     // Task 2
     task2.state = 0;//Task initial state.
     task2.period = tick2_period;//Task Period.   //2
     task2.elapsedTime = tick2_period; // Task current elasped time. //2
-    task2.TickFct = &tick2; // Function pointer for the tick.
+    task2.TickFct = &DisplaySM; // Function pointer for the tick.
 
-    TimerSet(smGCD);
+    TimerSet(10);
     TimerOn();
 
     LCD_init();

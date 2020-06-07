@@ -28,7 +28,7 @@ unsigned char keypadVal = 0x00;
 unsigned char x = 0x00;
 unsigned char index = 0;
 
-unsigned char word[14]={'C', 'O', 'N', 'G', 'R', 'A', 'T', 'U', 'L', 'A', 'T', 'I', 'O', 'N'};
+unsigned char word[16]={'C', 'O', 'N', 'G', 'R', 'A', 'T', 'U', 'L', 'A', 'T', 'I', 'O', 'N', 'S', '!'};
 
 int LetterChangeSM (int state) {
     keypadVal = GetKeypadKey();
@@ -56,52 +56,52 @@ int LetterChangeSM (int state) {
         case release:
             switch(x) {
       			case '1':
-      			       word[index] = '1';
+      			       word[index - 1] = '1';
                        break;
       			case '2':
-      			       word[index] = '2';
+      			       word[index - 1] = '2';
       			       break;
       			case '3':
-      			       word[index] = '3';
+      			       word[index - 1] = '3';
       		           break;
       			case '4':
-      			       word[index] = '4';
+      			       word[index - 1] = '4';
       		           break;
       			case '5':
-      			       word[index] = '5';
+      			       word[index - 1] = '5';
       		           break;
       			case '6':
-      			       word[index] = '6';
+      			       word[index - 1] = '6';
       		           break;
       			case '7':
-      			       word[index] = '7';
+      			       word[index - 1] = '7';
       		           break;
       			case '8':
-      			       word[index] = '8';
+      			       word[index - 1] = '8';
       			       break;
       			case '9':
-      			       word[index] = '9';
+      			       word[index - 1] = '9';
       			       break;
       			case 'A':
-      			       word[index] = 'A';
+      			       word[index - 1] = 'A';
       			       break;
       			case 'B':
-      			       word[index] = 'B';
+      			       word[index - 1] = 'B';
       			       break;
       			case 'C':
-      			       word[index] = 'C';
+      			       word[index - 1] = 'C';
       			       break;
       			case 'D':
-      			       word[index] = 'D';
+      			       word[index - 1] = 'D';
       			       break;
       			case '*':
-      			       word[index] = '*';
+      			       word[index - 1] = '*';
       			       break;
       			case '0':
-      			       word[index] = '0';
+      			       word[index - 1] = '0';
       			       break;
       			case '#':
-      			       word[index] = '#';
+      			       word[index - 1] = '#';
       			       break;
             }
             state1 = wait;
@@ -118,7 +118,7 @@ int LetterChangeSM (int state) {
         case press:
             break;
         case release:
-            if (index < 14) {
+            if (index < 16) {
                 index++;
             }
             else {
