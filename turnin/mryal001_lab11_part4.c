@@ -278,7 +278,7 @@ int main(void) {
     		}
     		tasks[i]->elapsedTime += 1;
     	}
-    	while(!TimerFlag) {}
+    	while(!TimerFlag);
     	   TimerFlag = 0;
     }
     // Error: Program should not exit!
