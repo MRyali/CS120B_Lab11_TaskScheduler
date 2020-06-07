@@ -128,7 +128,7 @@ int playerSM() {
 }
 */
 
-int playerCursorSM (int state) { //allows player to move sursor up and down
+void playerCursorSM () { //allows player to move sursor up and down
     switch (state1) {
         case Start1:
             state1 = cursorUp;
@@ -167,7 +167,6 @@ int playerCursorSM (int state) { //allows player to move sursor up and down
         default:
             break;
     }
-    return state1;
 }
 
 int objectMoveSM(int state) {
@@ -176,7 +175,7 @@ int objectMoveSM(int state) {
             state2 = move;
             break;
         case move:
-            if ((topPositionLCD != 1)&& (bottomPositionLCD != 17) {
+            if ((topPositionLCD != 1) && (bottomPositionLCD != 17)) {
                 topPositionLCD -= 1; //decrementing by one gives smooth transition
                 bottomPositionLCD -= 1;
             }
@@ -274,26 +273,23 @@ int main(void) {
     topPositionLCD = rPosTop;
     bottomPositionLCD= rPosBot;
     i = 1;
-    // initialize local variables
-    unsigned long cursor_time = 50;
-    unsigned long obstacle_time = 300;
-    const unsigned long timer_period = 50;
 
     state1 = Start1;
     state2 = Start2;
     state3 = Start3;
 
     // unsigned long int
-    static task task1, task2, task3;
-    task *tasks[] = { &task1, &task2, &task3};
+    static task task2, task3;
+    task *tasks[] = { &task2, &task3};
     const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
 
+/*
 	   // Task 1
 	task1.state = 0;//Task initial state.
 	task1.period = 300;//Task Period.
 	task1.elapsedTime = 300;//Task current elapsed time.
     task1.TickFct = &playerCursorSM;//Function pointer for the tick.
-
+*/
     task1.state = 0;//Task initial state.
 	task1.period = 50;//Task Period.
 	task1.elapsedTime = 50;//Task current elapsed time.
