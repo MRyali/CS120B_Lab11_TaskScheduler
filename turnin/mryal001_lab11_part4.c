@@ -165,6 +165,10 @@ int DisplaySM(int state) {
             LCD_WriteData(word[12]);
             LCD_Cursor(14);
             LCD_WriteData(word[13]);
+            LCD_Cursor(15);
+            LCD_WriteData(word[14]);
+            LCD_Cursor(16);
+            LCD_WriteData(word[15]);
             state2 = display;
             break;
         default:
