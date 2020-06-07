@@ -77,53 +77,50 @@ int LetterChangeSM (int state) {
             if (keypadVal == '0') {
                 word[index] = '0';
             }
-            else if (keypadVal == '1') {
+            if (keypadVal == '1') {
                 word[index] = '1';
             }
-            else if (keypadVal == '2') {
+            if (keypadVal == '2') {
                 word[index] = '2';
             }
-            else if (keypadVal == '3') {
+            if (keypadVal == '3') {
                 word[index] = '3';
             }
-            else if (keypadVal == '4') {
+            if (keypadVal == '4') {
                 word[index] = '4';
             }
-            else if (keypadVal == '5') {
+            if (keypadVal == '5') {
                 word[index] = '5';
             }
-            else if (keypadVal == '6') {
+            if (keypadVal == '6') {
                 word[index] = '6';
             }
-            else if (keypadVal == '7') {
+            if (keypadVal == '7') {
                 word[index] = '7';
             }
-            else if (keypadVal == '8') {
+            if (keypadVal == '8') {
                 word[index] = '8';
             }
-            else if (keypadVal == '9') {
+            if (keypadVal == '9') {
                 word[index] = '9';
             }
-            else if (keypadVal == 'A') {
+            if (keypadVal == 'A') {
                 word[index] = 'A';
             }
-            else if (keypadVal == 'B') {
+            if (keypadVal == 'B') {
                 word[index] = 'B';
             }
-            else if (keypadVal == 'C') {
+            if (keypadVal == 'C') {
                 word[index] = 'C';
             }
-            else if (keypadVal == 'D') {
+            if (keypadVal == 'D') {
                 word[index] = 'D';
             }
-            else if (keypadVal == '#') {
+            if (keypadVal == '#') {
                 word[index] = '#';
             }
-            else if (keypadVal == '*') {
+            if (keypadVal == '*') {
                 word[index] = '*';
-            }
-            else {
-                word[index] = word[index];
             }
             break;
         default:
