@@ -37,7 +37,7 @@ int LetterChangeSM (int state) {
             state1 = wait;
             break;
         case wait:
-            if (keypadVal != '0') {
+            if (keypadVal != '\0') {
                 x = keypadVal;
                 state1 = press;
             }
@@ -46,7 +46,7 @@ int LetterChangeSM (int state) {
             }
             break;
         case press:
-            if (keypadVal == '0') {
+            if (keypadVal == '\0') {
                 state1 = release;
             }
             else {
