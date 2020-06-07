@@ -54,7 +54,7 @@ int LetterChangeSM (int state) {
             }
             break;
         case release:
-            switch(keypad) {
+            switch(keypadVal) {
       			case '1':
       			       word[index] = '1';
                        break;
