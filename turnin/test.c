@@ -21,18 +21,71 @@
 #include "bit.h"
 #endif
 
-//enum LetterChangeSM {Start1, press, release} state1;
-enum DisplaySM{Start2, display,} state2;
+enum LetterChangeSM {Start1, wait, press, release} state1;
+enum DisplaySM{Start2, display} state2;
 
 unsigned char keypadVal = 0x00;
 unsigned char letterChange = 'C';
 unsigned char signal = 0;
 unsigned char cursor = 0;
+unsigned char index = 0;
 
 //unsigned char display[16]={'S', 'U', 'M', 'M', 'E', 'R', 'T', 'I', 'M', 'E', '2', '0', '2', '0', '!', '!'};
 
 unsigned char word[5] = {'H', 'E', 'L', 'L', 'O'};
-int LetterChangeSM(int state) {
+
+int LetterChangeSM (int state) {
+    keypadVal = GetKeypadKey();
+    switch(state1) {
+        case Start1:
+            state1 = wait;
+            break;
+        case wait:
+            if (keypadVal != '0') {
+                state1 = press;
+            }
+            else {
+                state1 = wait;
+            }
+            break;
+        case press:
+            if (keypadVal == '0') {
+                state1 = release;
+            }
+            else {
+                state1 = press;
+            }
+            break;
+        case release:
+            index++;
+            state1 = wait;
+            break;
+        default:
+            state1 = Start1;
+            break;
+    }
+    switch(state1) {
+        case Start1:
+            break;
+        case wait:
+            break;
+        case press:
+            break;
+        case release:
+            if (keypad == '0') {
+                word[index] = '0';
+            }
+            else if if (keypad == '1') {
+                word[index] = '1';
+            }
+            break;
+        default:
+            break;
+    }
+    return state1;
+}
+
+int DisplaySM(int state) {
     switch(state2) {
         case Start2:
             state2 = display;
@@ -49,10 +102,20 @@ int LetterChangeSM(int state) {
             LCD_Cursor(5);
             LCD_WriteData(word[4]);
             state2 = display;
+            break;
         default:
             state2 = Start2;
             break;
     }
+    switch(state2) {
+        case Start2:
+            break;
+        case display:
+            break;
+        default:
+            break;
+    }
+    return state2;
 }
 
 
@@ -75,8 +138,8 @@ int main(void) {
     unsigned long int tick2_period = tick2Val/smGCD;// 1
 
     //Declare an array of tasks
-    static task task1;
-    task *tasks[] = { &task1};
+    static task task1, task2;
+    task *tasks[] = { &task1, &task2};
     const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
 
     // Task 1
@@ -84,13 +147,13 @@ int main(void) {
     task1.period = tick1_period;//Task Period.  //1
     task1.elapsedTime = tick1_period; // Task current elasped time. //1
     task1.TickFct = &LetterChangeSM; // Function pointer for the tick.
-/*
+
     // Task 2
     task2.state = 0;//Task initial state.
     task2.period = tick2_period;//Task Period.   //2
     task2.elapsedTime = tick2_period; // Task current elasped time. //2
-    task2.TickFct = &tick2; // Function pointer for the tick.
-*/
+    task2.TickFct = &DisplaySM; // Function pointer for the tick.
+
     TimerSet(10);
     TimerOn();
 
