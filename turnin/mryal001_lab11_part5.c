@@ -21,7 +21,7 @@
 #include "timer.h"
 #endif
 
-srand(time(NULL));   // Initialization, should only be called once.
+srand(100);   // Initialization, should only be called once.
 
 enum cursorSM {Start1, cursorUp, cursorDown} state1;
 enum objectSM {Start2, move} state2;
