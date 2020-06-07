@@ -308,6 +308,7 @@ int main(void) {
 
     unsigned short j; // Scheduler for-loop iterator
    	while(1) {
+        playerCursorSM();
    	    for ( j = 0; j < numTasks; j++ ) {
    		       if ( tasks[j]->elapsedTime == tasks[j]->period ) {
    			          tasks[j]->state = tasks[j]->TickFct(tasks[j]->state);
