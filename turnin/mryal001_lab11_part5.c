@@ -21,6 +21,8 @@
 #include "timer.h"
 #endif
 
+srand(time(NULL));   // Initialization, should only be called once.
+
 enum cursorSM {Start1, cursorUp, cursorDown} state1;
 enum objectSM {Start2, move} state2;
 enum gameSM {Start3, playGame, gameOver, wait, gameReset} state3;
@@ -258,10 +260,9 @@ int main(void) {
     DDRB = 0xFF; PORTB = 0x00; //output
     DDRD = 0xFF; PORTD = 0x00; //output;
 
-    srand(time(NULL));   // Initialization, should only be called once.
-    int rPosTop = (rand() % 16) + 1; //random starting pos for top
-    int rPosBot = (rand() % 32) + 1; //random starting pos for bot
-    r = (rand() % 3) + 1;      // Returns a pseudo-random integer between 0 and RAND_MAX.
+    int rPosTop = 12; //(rand() % 16) + 1; //random starting pos for top
+    int rPosBot = 25; //(rand() % 32) + 1; //random starting pos for bot
+    r = (rand() % 1) + 1;      // Returns a pseudo-random integer between 0 and RAND_MAX.
 
     // initialize global variables
     topPositionLCD = rPosTop;
