@@ -279,17 +279,17 @@ int main(void) {
     state3 = Start3;
 
     // unsigned long int
-    static task task2, task3;
-    task *tasks[] = { &task2, &task3};
+    static task task1, task2, task3;
+    task *tasks[] = { &task1, &task2, &task3};
     const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
 
-/*
+
 	   // Task 1
 	task1.state = 0;//Task initial state.
 	task1.period = 300;//Task Period.
 	task1.elapsedTime = 300;//Task current elapsed time.
     task1.TickFct = &playerCursorSM;//Function pointer for the tick.
-*/
+
     task2.state = 0;//Task initial state.
 	task2.period = 50;//Task Period.
 	task2.elapsedTime = 50;//Task current elapsed time.
