@@ -174,17 +174,15 @@ void objectMoveSM() {
             state2 = move;
             break;
         case move:
-            if (topPositionLCD == 1) {
+            if ((topPositionLCD - r) >= 1 && (bottomPositionLCD - (r + 2)) != 17) {
+                topPositionLCD -= r;
+                bottomPositionLCD -= r + 1;
+            }
+            else if (topPositionLCD == 1) {
                 topPositionLCD = 16;
             }
             else if (bottomPositionLCD == 17) {
                 bottomPositionLCD = 32;
-            }
-            else {
-                if (topPositionLCD != 1 && bottomPositionLCD != 17) {
-                    topPositionLCD -= r;
-                    bottomPositionLCD -= r + 2;
-                }
             }
             break;
         default:
