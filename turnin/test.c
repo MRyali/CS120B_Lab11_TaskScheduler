@@ -128,7 +128,7 @@ int playerSM() {
 }
 */
 
-void playerCursorSM () { //allows player to move sursor up and down
+int playerCursorSM (int state) { //allows player to move sursor up and down
     switch (state1) {
         case Start1:
             state1 = cursorUp;
@@ -167,9 +167,10 @@ void playerCursorSM () { //allows player to move sursor up and down
         default:
             break;
     }
+    return state1;
 }
 
-void objectMoveSM() {
+int objectMoveSM(int state) {
     switch(state2) {
         case Start2:
             state2 = move;
@@ -206,9 +207,10 @@ void objectMoveSM() {
         default:
             break;
     }
+    return state2;
 }
 
-void playGameSM() {
+int playGameSM(int state) {
     switch(state3) { // state transitions
         case Start3:
             state3 = wait;
@@ -253,6 +255,7 @@ void playGameSM() {
             i = 0;
             break;
     }
+    return state3;
 }
 
 int main(void) {
@@ -265,7 +268,7 @@ int main(void) {
 
     int rPosTop = (rand() % 16) + 5; //random starting pos for top
     int rPosBot = (rand() % 32) + 5; //random starting pos for bot
-    r = (rand() % 1) + 1;      // Returns a pseudo-random integer between 0 and RAND_MAX.
+    //r = (rand() % 1) + 1;      // Returns a pseudo-random integer between 0 and RAND_MAX.
 
     // initialize global variables
     topPositionLCD = rPosTop;
@@ -280,33 +283,44 @@ int main(void) {
     state2 = Start2;
     state3 = Start3;
 
+    // unsigned long int
+    static task task1, task2, task3;
+    task *tasks[] = { &task1, &task2, &task3};
+    const unsigned short numTasks = sizeof(tasks)/sizeof(task*);
+
+	   // Task 1
+	task1.state = 0;//Task initial state.
+	task1.period = 300;//Task Period.
+	task1.elapsedTime = 300;//Task current elapsed time.
+    task1.TickFct = &playerCursorSM;//Function pointer for the tick.
+
+    task1.state = 0;//Task initial state.
+	task1.period = 50;//Task Period.
+	task1.elapsedTime = 50;//Task current elapsed time.
+    task1.TickFct = &objectMoveSM;//Function pointer for the tick.
+
+    task1.state = 0;//Task initial state.
+	task1.period = 300;//Task Period.
+	task1.elapsedTime = 300;//Task current elapsed time.
+    task1.TickFct = &playGameSM;//Function pointer for the tick.
+
     // initialize timer
-    TimerSet(timer_period);
+    TimerSet(50);
     TimerOn();
     LCD_init();
     LCD_ClearScreen();
 
-    while (1) {
-        buttonUp = ~PINA & 0x01; //up
-        buttonDown = ~PINA & 0x02; //down
-        buttonReset = ~PINA & 0x04; //reset
-        if (buttonReset) { // use PB2 to start/restart the game
-            i = 0;
-        }
-        if (i == 0) { //game is running
-            if (cursor_time >= 50) {
-                playGameSM();
-                cursor_time = 0;
-            }
-            if (obstacle_time >= 300) {
-                objectMoveSM();
-                obstacle_time = 0;
-            }
-        }
-        while (!TimerFlag) {}  // Wait for timer period
-        TimerFlag = 0;        // Lower flag
-        cursor_time += timer_period;
-        obstacle_time += timer_period;
-    }
+    unsigned short j; // Scheduler for-loop iterator
+   	while(1) {
+   	    for ( j = 0; j < numTasks; j++ ) {
+   		       if ( tasks[j]->elapsedTime == tasks[j]->period ) {
+   			          tasks[j]->state = tasks[j]->TickFct(tasks[j]->state);
+   				      tasks[j]->elapsedTime = 0;
+   			}
+   			tasks[j]->elapsedTime += 1;
+   		}
+   		while(!TimerFlag);
+   		TimerFlag = 0;
+   	}
     return 0;
 }
