@@ -12,6 +12,7 @@
 
 #include <avr/io.h>
 #include <time.h>
+#include <stdio.h>
 #include <stdlib.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
@@ -20,9 +21,6 @@
 #include "io.h"
 #include "timer.h"
 #endif
-
-unsigned char seed = 100;
-srand(seed);   // Initialization, should only be called once.
 
 enum cursorSM {Start1, cursorUp, cursorDown} state1;
 enum objectSM {Start2, move} state2;
@@ -260,6 +258,8 @@ int main(void) {
     DDRC = 0xFF; PORTC = 0x00; //output
     DDRB = 0xFF; PORTB = 0x00; //output
     DDRD = 0xFF; PORTD = 0x00; //output;
+
+    srand(time(0));  //set seed as current time
 
     int rPosTop = 12; //(rand() % 16) + 1; //random starting pos for top
     int rPosBot = 25; //(rand() % 32) + 1; //random starting pos for bot
