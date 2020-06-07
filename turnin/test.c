@@ -25,6 +25,7 @@ enum LetterChangeSM {Start1, wait, press, release} state1;
 enum DisplaySM{Start2, display} state2;
 
 unsigned char keypadVal = 0x00;
+unsigned char x = 0x00;
 unsigned char index = 0;
 
 unsigned char word[14]={'C', 'O', 'N', 'G', 'R', 'A', 'T', 'U', 'L', 'A', 'T', 'I', 'O', 'N'};
@@ -37,6 +38,7 @@ int LetterChangeSM (int state) {
             break;
         case wait:
             if (keypadVal != '0') {
+                x = keypadVal;
                 state1 = press;
             }
             else {
@@ -52,7 +54,7 @@ int LetterChangeSM (int state) {
             }
             break;
         case release:
-            switch(keypadVal) {
+            switch(x) {
       			case '1':
       			       word[index] = '1';
                        break;
