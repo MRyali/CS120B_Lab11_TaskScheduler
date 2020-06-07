@@ -175,9 +175,9 @@ void objectMoveSM() {
             state2 = move;
             break;
         case move:
-            if ((topPositionLCD - r) >= 1 && (bottomPositionLCD - (r + 2)) != 17) {
-                topPositionLCD -= r;
-                bottomPositionLCD -= r + 1;
+            if ((topPositionLCD != 1)&& (bottomPositionLCD != 17) {
+                topPositionLCD -= 1; //decrementing by one gives smooth transition
+                bottomPositionLCD -= 1;
             }
             else if (topPositionLCD == 1) {
                 topPositionLCD = 16;
@@ -195,7 +195,9 @@ void objectMoveSM() {
             break;
         case move:
             LCD_ClearScreen();
-            LCD_DisplayString(topPositionLCD, (unsigned char*)"#");
+            LCD_Cursor(topPositionLCD);
+            LCD_WriteData('#');
+            //LCD_DisplayString(topPositionLCD, (unsigned char*)"#");
             topPositionObject = topPositionLCD; //store position of object
             LCD_Cursor(bottomPositionLCD);
             LCD_WriteData('#');
@@ -212,7 +214,7 @@ void playGameSM() {
             state3 = wait;
             break;
         case playGame:
-            if (playerCursor == topPositionObject|| playerCursor== bottomPositionObject) {
+            if (playerCursor == topPositionObject || playerCursor== bottomPositionObject) { //game is lost
                 state3 = gameOver;
             }
             else {
@@ -261,8 +263,8 @@ int main(void) {
 
     srand(time(0));  //set seed as current time
 
-    int rPosTop = 12; //(rand() % 16) + 1; //random starting pos for top
-    int rPosBot = 25; //(rand() % 32) + 1; //random starting pos for bot
+    int rPosTop = (rand() % 16) + 5; //random starting pos for top
+    int rPosBot = (rand() % 32) + 5; //random starting pos for bot
     r = (rand() % 1) + 1;      // Returns a pseudo-random integer between 0 and RAND_MAX.
 
     // initialize global variables
