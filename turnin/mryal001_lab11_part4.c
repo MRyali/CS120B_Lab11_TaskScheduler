@@ -8,7 +8,7 @@
  *	code, is my own original work.
  */
 
-// Demo:
+// Demo: https://drive.google.com/open?id=139sZElulmtQM2AZJiQqN-oYlxhoZ8ZLe
 
 #include <avr/io.h>
 #include <stdio.h>
@@ -36,7 +36,7 @@ int LetterChangeSM (int state) {
         case Start1:
             state1 = wait;
             break;
-        case wait:
+        case wait: //wait for button push
             if (keypadVal != '\0') {
                 x = keypadVal;
                 state1 = press;
@@ -54,7 +54,7 @@ int LetterChangeSM (int state) {
             }
             break;
         case release:
-            switch(x) {
+            switch(x) { //each button press changes a character in the array
       			case '1':
       			       word[index - 1] = '1';
                        break;
@@ -131,7 +131,7 @@ int LetterChangeSM (int state) {
     return state1;
 }
 
-int DisplaySM(int state) {
+int DisplaySM(int state) { //constantly displays the array
     switch(state2) {
         case Start2:
             state2 = display;

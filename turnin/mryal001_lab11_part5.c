@@ -8,7 +8,7 @@
  *	code, is my own original work.
  */
 
-// Demo:
+// Demo: https://drive.google.com/open?id=13A2sWmmBppTPxSY9QQqZPmkRV2Z7JxJg
 
 #include <avr/io.h>
 #include <time.h>
@@ -133,7 +133,7 @@ void playerCursorSM () { //allows player to move sursor up and down
         case Start1:
             state1 = cursorUp;
             break;
-        case cursorUp:
+        case cursorUp: //play game
             if (buttonDown) {
                 state1 = cursorDown;
             }
@@ -175,11 +175,11 @@ void objectMoveSM() {
             state2 = move;
             break;
         case move:
-            if ((topPositionLCD != 1)&& (bottomPositionLCD != 17)) {
+            if ((topPositionLCD != 1) && (bottomPositionLCD != 17)) {
                 topPositionLCD -= 1; //decrementing by one gives smooth transition
                 bottomPositionLCD -= 1;
             }
-            else if (topPositionLCD == 1) {
+            else if (topPositionLCD == 1) { //reset position upon reaching end of screen
                 topPositionLCD = 16;
             }
             else if (bottomPositionLCD == 17) {
@@ -195,11 +195,10 @@ void objectMoveSM() {
             break;
         case move:
             LCD_ClearScreen();
-            LCD_Cursor(topPositionLCD);
+            LCD_Cursor(topPositionLCD); //top object
             LCD_WriteData('#');
-            //LCD_DisplayString(topPositionLCD, (unsigned char*)"#");
             topPositionObject = topPositionLCD; //store position of object
-            LCD_Cursor(bottomPositionLCD);
+            LCD_Cursor(bottomPositionLCD); //bottom object
             LCD_WriteData('#');
             bottomPositionObject = bottomPositionLCD; //store the position of object
             break;
@@ -240,15 +239,15 @@ void playGameSM() {
         case Start3:
             break;
         case playGame:
-            playerCursorSM();
+            playerCursorSM(); //allows player to move the cursor
             break;
         case gameOver:
-            LCD_DisplayString(1, (unsigned char*)"Get Good Lol");
+            LCD_DisplayString(1, (unsigned char*)"Get Good Lol"); //game over message
             i = 1;
             break;
         case wait:
             break;
-        case gameReset:
+        case gameReset: //reset game
             LCD_ClearScreen();
             i = 0;
             break;
